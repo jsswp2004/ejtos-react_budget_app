@@ -1,16 +1,31 @@
 import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
+
 const Remaining = () => {
     const { expenses, budget } = useContext(AppContext);
+
     const totalExpenses = expenses.reduce((total, item) => {
-        return (total = total + item.cost);
+        return total + item.cost;
     }, 0);
-    const alertType = totalExpenses > budget ? 'alert-danger' : 'alert-success';
+
+    const remainingBudget = budget - totalExpenses;
+    const alertType = remainingBudget < 0 ? 'alert-danger' : 'alert-success';
+
     return (
-        <div className={`alert ${alertType}`}>
-            <span>Remaining: £{budget - totalExpenses}</span>
+        <div>
+            {/* Display the remaining budget */}
+            <div className={`alert ${alertType}`}>
+                <span>Remaining: £{remainingBudget}</span>
+            </div>
+
+            {/* Display warning if expenses exceed the budget */}
+            {remainingBudget < 0 && (
+                <div className="alert alert-warning">
+                    The value cannot exceed remaining funds! {remainingBudget}
+                </div>
+            )}
         </div>
     );
 };
-export default Remaining;
 
+export default Remaining;
