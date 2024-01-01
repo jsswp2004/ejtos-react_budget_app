@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react';
 import { AppContext } from '../context/AppContext';
+// import SelectedCurrency from './SelectedCurrency';
 
 const AllocationForm = (props) => {
-    const { dispatch, remaining } = useContext(AppContext);
-
+    const { dispatch, remaining, currency } = useContext(AppContext);
     const [name, setName] = useState('');
     const [cost, setCost] = useState('');
     const [action, setAction] = useState('');
+    // const [currency, setCurrency] = useState('');
 
     const submitEvent = () => {
 
@@ -30,6 +31,16 @@ const AllocationForm = (props) => {
                 type: 'ADD_EXPENSE',
                 payload: expense,
             });
+        }
+    };
+
+    const handleCostChange = (event) => {
+        const value = event.target.value;
+        // Regular expression to allow only numbers
+        const reg = /^[0-9]*$/;
+
+        if (value === '' || reg.test(value)) {
+            setCost(value);
         }
     };
 
@@ -64,12 +75,12 @@ const AllocationForm = (props) => {
                         type='number'
                         id='cost'
                         value={cost}
-                        style={{ marginLeft: '2rem', size: 10 }}
+                        style={{ marginLeft: '2rem' , size: 10}}
                         onChange={(event) => setCost(event.target.value)}>
-                    </input>
+                        </input>
 
                     <button className="btn btn-primary" onClick={submitEvent} style={{ marginLeft: '2rem' }}>
-                        Save
+                        Saves
                     </button>
                 </div>
             </div>
